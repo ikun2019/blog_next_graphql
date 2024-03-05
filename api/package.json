@@ -1,0 +1,16 @@
+{
+	"name": "app",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"start": "node ./src/server.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"apollo-server": "^2.26.2",
+		"graphql": "^14.7.0"
+	}
+}
