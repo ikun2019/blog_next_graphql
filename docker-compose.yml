@@ -10,6 +10,7 @@ services:
       - ./api:/app
     ports:
       - 4000:4000
+      - 5555:5555
   # client:
   #   platform: linux/amd64
   #   container_name: blog_client
