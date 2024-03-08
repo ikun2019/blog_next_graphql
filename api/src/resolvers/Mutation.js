@@ -18,6 +18,24 @@ async function signup(parent, args, context) {
   };
 };
 
+async function login(parent, args, context) {
+  const user = await context.prisma.user.findUnique({
+    where: { email: args.email }
+  });
+  if (!user) {
+    throw new Error('ユーザーが存在しません');
+  }
+  const isMatch = await bcrypt.compare(args.password, user.password);
+  if (!isMatch) {
+    throw new Error('IDとパスワードが一致しません');
+  }
+  const token = jwt.sign({ userId: user.id }, APP_SECRET);
+  return {
+    token,
+    user,
+  };
+};
+
 module.exports = {
   signup,
 }
