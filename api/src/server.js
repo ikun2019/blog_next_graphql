@@ -6,7 +6,7 @@ const { PrismaClient } = require('@prisma/client');
 const { getUserId } = require('./utils');
 
 // resolverの読み込み
-const Query = require('./utils');
+const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
 const Link = require('./resolvers/Link');
 const User = require('./resolvers/User');
