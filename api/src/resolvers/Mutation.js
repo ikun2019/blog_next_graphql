@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-APP_SECRET = 'graphql';
+const { APP_SECRET } = require('../utils');
 
 async function signup(parent, args, context) {
   const password = await bcrypt.hash(args.password, 10);
@@ -36,6 +35,20 @@ async function login(parent, args, context) {
   };
 };
 
+async function post(parent, args, context) {
+  const { userId } = context;
+
+  return await context.prisma.create({
+    data: {
+      url: args.url,
+      description: args.description,
+      postedBy: { connect: { id: userId } },
+    }
+  });
+};
+
 module.exports = {
   signup,
+  login,
+  post,
 }
