@@ -50,8 +50,34 @@ async function post(parent, args, context) {
   return newLink;
 };
 
+async function vote(parent, args, context) {
+  const userId = context.userId;
+  // const vote = await context.prisma.vote.findUnique({
+  //   where: {
+  //     linkId_userId: {
+  //       linkId: Number(args.linkId),
+  //       userId: userId,
+  //     }
+  //   }
+  // });
+  // if (Boolean(vote)) {
+  //   throw new Error(`すでに投票されています${args.linkId}`);
+  // }
+
+  const newVote = await context.prisma.vote.create({
+    data: {
+      user: { connect: { id: Number(userId) } },
+      link: { connect: { id: Number(args.linkId) } },
+    },
+  });
+
+  await context.pubsub.publish('NEW_VOTE', newVote);
+  return newVote;
+};
+
 module.exports = {
   signup,
   login,
   post,
+  vote,
 }
