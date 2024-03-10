@@ -10,14 +10,21 @@ const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
 const Link = require('./resolvers/Link');
 const User = require('./resolvers/User');
+const Subscription = require('./resolvers/Subscription');
 
+// サブスクリプションの実装
+const { PubSub } = require('apollo-server');
+
+// 初期化
 const prisma = new PrismaClient();
+const pubsub = new PubSub();
 
 // リゾルバ関数
 // 値を入れる
 const resolvers = {
   Query,
   Mutation,
+  Subscription,
   Link,
   User,
 };
@@ -29,6 +36,7 @@ const server = new ApolloServer({
     return {
       ...req,
       prisma,
+      pubsub,
       userId: req && req.headers.authorization ? getUserId(req) : null,
     }
   }
